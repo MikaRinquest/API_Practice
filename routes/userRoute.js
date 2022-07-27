@@ -18,11 +18,13 @@ router.get("/", (req, res) => {
 // Gets one users
 router.get("/:id", (req, res) => {
   try {
-    // con.query("SELECT * FROM users WHERE user_id ${}", (err, result) => {
-    //   if (err) throw err;
-    //   res.send(result);
-    // });
-    res.send({ id: req.params.id });
+    con.query(
+      `SELECT * FROM users WHERE user_id = ${req.params.id}`,
+      (err, result) => {
+        if (err) throw err;
+        res.send(result[0]);
+      }
+    );
   } catch (error) {
     console.log(error);
     res.status(400).send(error);
@@ -58,6 +60,40 @@ router.post("/", (req, res) => {
       (err, result) => {
         if (err) throw err;
         res.send(result);
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+});
+
+// Log in user
+router.patch("/", (req, res) => {
+  // NB!!! Only use req.params when pulling information from the url
+  const { email, password } = req.body;
+  try {
+    con.query(
+      `SELECT * FROM users WHERE email = "${email}" AND password = "${password}" `,
+      (err, result) => {
+        if (err) throw err;
+        res.send(result[0]);
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+});
+
+// Edit user
+router.update("/:id", (req, res) => {
+  try {
+    con.query(
+      `UPDATE users WHERE email = "${email}" AND password = "${password}" `,
+      (err, result) => {
+        if (err) throw err;
+        res.send(result[0]);
       }
     );
   } catch (error) {
