@@ -10,9 +10,23 @@ app.get("/", (req, res) => {
   res.json({ Welcome: "Hello User" });
 });
 
+// Imports the userRoute
+// "/users" : the extension in the url that will display the information
+//  userRoute : where to pull the information
 const userRoute = require("./routes/userRoute");
-
 app.use("/users", userRoute);
+
+// Imports the productRoute
+const productRoute = require("./routes/productRoute");
+app.use("/products", productRoute);
+
+// Import the categoryRoute
+const categoriesRoute = require("./routes/categoriesRoute");
+app.use("/categories", categoriesRoute);
+
+// Import the orders
+const orderRoute = require("./routes/ordersRoute");
+app.use("/orders", orderRoute);
 
 app.listen(app.get("port"), () => {
   console.log(`Listening for calls on port ${app.get("port")}`);
