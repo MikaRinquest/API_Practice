@@ -3,6 +3,7 @@ const router = express.Router();
 const con = require("../library/db_connection");
 const middleware = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 // Gets all users
 router.get("/", middleware, (req, res) => {
@@ -131,8 +132,6 @@ router.delete("/:id", (req, res) => {
   }
 });
 
-const bcrypt = require("bcryptjs");
-
 // Register a user
 router.post("/register", (req, res) => {
   try {
@@ -149,20 +148,22 @@ router.post("/register", (req, res) => {
     } = req.body;
 
     // Start of encryption
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(password, salt);
+    const salt = bcrypt.genSaltSync(10); //Length of the characters
+    const hash = bcrypt.hashSync(password, salt); //Will cause the password to become encrypted
 
     let user = {
       full_name,
       email,
       // We sending the hash value to be stored witin the table
-      password: hash, //This gives whatever value the password is will have a hash value
+      password: hash, //This gives whatever value the password is will have a hash value and send that hash value to the table
       user_type,
       phone,
       country,
       billing_address,
       default_shipping_address,
     };
+
+    // Connection to the database
     con.query(sql, user, (err, result) => {
       if (err) throw err;
       console.log(result);
@@ -176,12 +177,14 @@ router.post("/register", (req, res) => {
 
 // Login
 router.post("/login", (req, res) => {
+  //The res here is the original
   try {
     let sql = "SELECT * FROM users WHERE ?";
     let user = {
       email: req.body.email,
     };
     con.query(sql, user, async (err, result) => {
+      //If result is changed to res, the original res will no longer work
       if (err) throw err;
       if (result.length === 0) {
         res.send("Email not found please register");
@@ -193,7 +196,7 @@ router.post("/login", (req, res) => {
         if (!isMatch) {
           res.send("Password incorrect");
         } else {
-          // The information the should be stored inside token
+          // The information that should be stored inside token
           const payload = {
             user: {
               user_id: result[0].user_id,
@@ -256,16 +259,16 @@ router.get("/", middleware, (req, res) => {
 
 module.exports = router;
 
-// {
+//` {
 //      "full_name": "Isma'eel Adams",
 //       "email": "issy@gmail.com",
-//       "hash": "dog",
+//       "password": "dog",
 //       "user_type": "client",
 //       "phone": "123456",
 //       "country": "South Africa",
 //       "billing_address": "home",
 //       "default_shipping_address": "home"
-// }
+// }`
 
 // {
 //     "email": "mikar@gmail.com",

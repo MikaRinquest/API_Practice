@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const middleware = require("../middleware/auth");
 const con = require("../library/db_connection");
+const middleware = require("../middleware/auth");
 
 // Get all
 router.get("/", (req, res) => {
@@ -134,3 +134,5 @@ router.delete("/:id", middleware, (req, res) => {
 });
 
 module.exports = router;
+
+// When using the admin only functions, remember to change the value of the value in the header, else the logged in user won't be considered "logged in"
