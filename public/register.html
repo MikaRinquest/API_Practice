@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/register.css" />
+    <script src="./scripts/register.js"></script>
+  </head>
+  <body>
+    <nav id="nav">
+      <ul class="links">
+        <li><a href="./index.html" class="link">Home</a></li>
+        <li class="link">User</li>
+        <li><a href="./admin.html" class="link">Admin</a></li>
+        <li><a href="./login.html" class="link">Login</a></li>
+        <li><a href="./register.html" class="link">Register</a></li>
+      </ul>
+    </nav>
+    <form onsubmit="event.preventDefault(); register()">
+      <input type="text" name="email" placeholder="email" id="email" />
+      <input type="text" name="password" placeholder="password" id="password" />
+      <input type="text" name="fullname" placeholder="fullname" id="fullname" />
+      <input type="tel" name="phone" placeholder="phone" id="phone" />
+      <input
+        type="text"
+        name="billing_address"
+        placeholder="billing_address"
+        id="billing_address"
+      />
+      <input
+        type="text"
+        name="shipping_address"
+        placeholder="shipping_address"
+        id="shipping_address"
+      />
+      <button type="submit">Register</button>
+    </form>
+  </body>
+</html>

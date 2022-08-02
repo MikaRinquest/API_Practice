@@ -1,13 +1,13 @@
 // This file will create a connection to the database
 const mysql = require("mysql");
-require("dotenv").config();
+const creds = require("../config/creds");
 
 // Here to is use across multiple files. Used to make SQL queries to DB
 const con = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
+  host: creds.DB_HOST,
+  user: creds.DB_USER,
+  password: creds.DB_PASS,
+  database: creds.DB_NAME,
   multipleStatements: true,
 });
 

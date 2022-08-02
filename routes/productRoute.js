@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const con = require("../library/db_connection");
 const middleware = require("../middleware/auth");
+const con = require("../library/db_connection");
 
 // Get all
 router.get("/", (req, res) => {

@@ -4,9 +4,10 @@ const con = require("../library/db_connection");
 const middleware = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const controller = require("../Controllers/Auth/Auth");
 
 // Gets all users
-router.get("/", middleware, (req, res) => {
+router.get("/", (req, res) => {
   try {
     con.query("SELECT * FROM users", (err, result) => {
       if (err) throw err;
@@ -90,7 +91,6 @@ router.get("/:id", (req, res) => {
 // });
 
 // Edit user
-
 router.put("/:id", (req, res) => {
   const {
     email,
@@ -134,103 +134,28 @@ router.delete("/:id", (req, res) => {
 
 // Register a user
 router.post("/register", (req, res) => {
-  try {
-    let sql = "INSERT INTO users SET ?";
-    const {
-      full_name,
-      email,
-      password,
-      user_type,
-      phone,
-      country,
-      billing_address,
-      default_shipping_address,
-    } = req.body;
-
-    // Start of encryption
-    const salt = bcrypt.genSaltSync(10); //Length of the characters
-    const hash = bcrypt.hashSync(password, salt); //Will cause the password to become encrypted
-
-    let user = {
-      full_name,
-      email,
-      // We sending the hash value to be stored witin the table
-      password: hash, //This gives whatever value the password is will have a hash value and send that hash value to the table
-      user_type,
-      phone,
-      country,
-      billing_address,
-      default_shipping_address,
-    };
-
-    // Connection to the database
-    con.query(sql, user, (err, result) => {
-      if (err) throw err;
-      console.log(result);
-      res.send(`User ${(user.full_name, user.email)} created successfully`);
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(400).send(error);
-  }
+  return controller.register(req, res);
 });
 
 // Login
 router.post("/login", (req, res) => {
-  //The res here is the original
-  try {
-    let sql = "SELECT * FROM users WHERE ?";
-    let user = {
-      email: req.body.email,
-    };
-    con.query(sql, user, async (err, result) => {
-      //If result is changed to res, the original res will no longer work
-      if (err) throw err;
-      if (result.length === 0) {
-        res.send("Email not found please register");
-      } else {
-        const isMatch = await bcrypt.compare(
-          req.body.password,
-          result[0].password
-        );
-        if (!isMatch) {
-          res.send("Password incorrect");
-        } else {
-          // The information that should be stored inside token
-          const payload = {
-            user: {
-              user_id: result[0].user_id,
-              full_name: result[0].full_name,
-              email: result[0].email,
-              user_type: result[0].user_type,
-              phone: result[0].phone,
-              country: result[0].country,
-              billing_address: result[0].billing_address,
-              default_shipping_address: result[0].default_shipping_address,
-            },
-          };
-          // Creating a token and setting expiry date
-          jwt.sign(
-            payload,
-            process.env.jwtSecret,
-            {
-              expiresIn: "365d",
-            },
-            (err, token) => {
-              if (err) throw err;
-              res.json({ token });
-            }
-          );
-        }
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  return controller.login(req, res);
 });
 
 // Verify
 router.get("/users/verify", (req, res) => {
+  // Login
+  // ` Get Token
+
+  // Admin Dash (user_type === admin)
+  // ` user_type = user
+  // Attach middleware
+  // add header
+
+  // Verify
+  // After Login
+  // Decodes the token
+  // Gets user assigned to token
   const token = req.header("x-auth-token");
   jwt.verify(token, process.env.jwtSecret, (error, decodedToken) => {
     if (error) {
