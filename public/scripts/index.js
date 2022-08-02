@@ -26,7 +26,7 @@
 //   }
 
 let products = [];
-fetch("http://localhost:6969/products/")
+fetch("https://api-prractice.herokuapp.com/products/")
   .then((response) => response.json())
   .then((product) => {
     showItems(product);
