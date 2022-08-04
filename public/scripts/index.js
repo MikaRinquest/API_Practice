@@ -1,5 +1,5 @@
 //   const users = [];
-//   fetch("http://localhost:6969/users/")
+//   fetch("https://api-prractice.herokuapp.com/users/")
 //     .then((response) => response.json())
 //     .then((user) => {
 //       console.log(user);

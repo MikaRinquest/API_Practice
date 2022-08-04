@@ -7,7 +7,7 @@ function register() {
   //   const country = document.querySelector("#country").value;
   const phone = document.querySelector("#phone").value;
   //   const user_type = document.querySelector("#user_type").value;
-  fetch("http://localhost:6969/users/register", {
+  fetch("https://api-prractice.herokuapp.com/users/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
