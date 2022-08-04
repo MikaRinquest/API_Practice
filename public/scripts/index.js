@@ -32,7 +32,7 @@ function displayUser() {}
 
 // Display all products
 let products = [];
-fetch("https://api-prractice.herokuapp.com/products/")
+fetch("http://localhost:6969/products/")
   .then((response) => response.json())
   .then((product) => {
     showItems(product);

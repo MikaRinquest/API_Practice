@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const controller = require("../Controllers/Auth/Auth");
 const nodemailer = require("nodemailer");
+require("dotenv").config();
 
 // Gets all users
 router.get("/", (req, res) => {
@@ -188,8 +189,111 @@ module.exports = router;
 // Forgot password
 router.post("/forgot-password", (req, res) => {
   try {
-    let sql = "SELECT FROM users"
+    let sql = "SELECT * FROM users WHERE ?";
+    let user = {
+      email: req.body.email,
+    };
+    con.query(sql, user, (err, result) => {
+      if (err) throw err;
+      if (result === 0) {
+        res.status(400), res.send("Email not found");
+      }
+      // Allows a connection to the email given
+      const transporter = nodemailer.createTransport({
+        host: process.env.MAILERHOST,
+        port: process.env.MAILERPORT,
+        auth: {
+          user: process.env.MAILERUSER,
+          pass: process.env.MAILERPASS,
+        },
+      });
+
+      // How the mail should be sent out
+      const mailData = {
+        from: process.env.MAILUSER,
+        to: result[0].email,
+
+        subject: "Password Reset",
+        html: `<div>
+            <h3>Hi ${result[0].full_name},</h3>
+            <br>
+            <h4>Click link below to reset your password</h4>
+
+            <a href="https://user-images.githubusercontent.com/4998145/52377595-605e4400-2a33-11e9-80f1-c9f61b163c6a.png">
+              Click Here to Reset Password
+              user_id = ${result[0].user_id}
+            </a>
+
+            <br>
+            <p>For any queries feel free to contact us...</p>
+            <div>
+              Email: ${process.env.MAILERUSER}
+              <br>
+              Tel: If needed you can add this
+            <div>
+          </div>`,
+      };
+      // Checks if the email can be sent
+      // Checks given email in the .env file
+      transporter.verify((error, success) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email valid! ", success);
+        }
+      });
+
+      transporter.sendMail(mailData, (error, info) => {
+        if (error) {
+          console.log(error);
+        } else {
+          res.status(200).json({
+            status: ok,
+            data: result,
+          });
+        }
+      });
+    });
+  } catch (error) {
+    console.log(error);
   }
+});
+
+// Reset password
+router.put("reset-password/:id", (req, res) => {
+  let sql = "SELECT * FROM users WHERE ?";
+  let user = {
+    user_id: req.params.id,
+  };
+  con.query(sql, user, (err, result) => {
+    if (err) throw err;
+    if (result === 0) {
+      res.status(400), res.send("User not found");
+    } else {
+      let newPassword = `UPDATE users SET ? WHERE user_id = ${req.params.id}`;
+
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(req.body.password, salt);
+
+      const updatedPassword = {
+        full_name: result[0].full_name,
+        email: result[0].email,
+        user_type: result[0].user_type,
+        phone: result[0].phone,
+        country: result[0].country,
+        billing_address: result[0].billing_address,
+        default_shipping_address: result[0].default_shipping_address,
+
+        // Only thing being changed
+        password: hash,
+      };
+      con.query(newPassword, updatedPassword, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send("Password has been updated, please login.");
+      });
+    }
+  });
 });
 
 //` {
