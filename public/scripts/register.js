@@ -5,6 +5,7 @@ function register() {
   const billing_address = document.querySelector("#billing_address").value;
   const shipping_address = document.querySelector("#shipping_address").value;
   //   const country = document.querySelector("#country").value;
+
   const phone = document.querySelector("#phone").value;
   //   const user_type = document.querySelector("#user_type").value;
   fetch("https://api-prractice.herokuapp.com/users/register", {

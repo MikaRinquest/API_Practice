@@ -1,30 +1,19 @@
-//   const users = [];
-//   fetch("https://api-prractice.herokuapp.com/users/")
-//     .then((response) => response.json())
-//     .then((user) => {
-//       console.log(user);
-//       showItems(user);
-//     });
+const users = [];
+fetch("https://api-prractice.herokuapp.com/users/users/verify", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "x-auth-token": localStorage.getItem("token", JSON.stringify(data)),
+  },
+})
+  .then((response) => response.json())
+  .then((user) => {
+    console.log(user);
+  });
 
-//   function showItems(users) {
-//     document.querySelector("#users").innerHTML = "";
-//     users.forEach((user) => {
-//       console.log(user);
-//       document.querySelector("#users").innerHTML += `
-//     <tr>
-//       <td>${user.user_id}</td>
-//       <td>${user.email}</td>
-//       <td>${user.full_name}</td>
-//       <td>${user.billing_address}</td>
-//       <td>${user.default_shipping_address}</td>
-//       <td>${user.country}</td>
-//       <td>${user.phone}</td>
-//       <td>${user.user_type}</td>
-//       </tr>
-//         `;
-//     });
-//   }
+function displayUser()
 
+// Display all products
 let products = [];
 fetch("https://api-prractice.herokuapp.com/products/")
   .then((response) => response.json())

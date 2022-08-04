@@ -12,13 +12,31 @@
     <nav id="nav">
       <ul class="links">
         <li><a href="./index.html" class="link">Home</a></li>
-        <li class="link">User</li>
+        <li class="link" onclick="displayUser()">User</li>
         <li><a href="./admin.html" class="link">Admin</a></li>
         <li><a href="./login.html" class="link">Login</a></li>
         <li><a href="./register.html" class="link">Register</a></li>
       </ul>
     </nav>
-    <div id="users"></div>
+    <div id="users">
+      <table class="userholder">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Type</th>
+            <th>Phone</th>
+            <th>Country</th>
+            <th>Billing Address</th>
+            <th>Default Shipping Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="user"></tr>
+        </tbody>
+      </table>
+    </div>
     <div>
       <table class="holder">
         <thead>

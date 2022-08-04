@@ -2,7 +2,7 @@ function login() {
   const email = document.querySelector("#email").value;
   const password = document.querySelector("#password").value;
   // const token =
-  fetch("http://localhost:6969/users/login", {
+  fetch("https://api-prractice.herokuapp.com/users/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,5 +16,6 @@ function login() {
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
+      localStorage.setItem("token", JSON.stringify(data));
     });
 }
