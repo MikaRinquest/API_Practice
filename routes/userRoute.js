@@ -5,6 +5,7 @@ const middleware = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const controller = require("../Controllers/Auth/Auth");
+const nodemailer = require("nodemailer");
 
 // Gets all users
 router.get("/", (req, res) => {
@@ -183,6 +184,13 @@ router.get("/", middleware, (req, res) => {
 });
 
 module.exports = router;
+
+// Forgot password
+router.post("/forgot-password", (req, res) => {
+  try {
+    let sql = "SELECT FROM users"
+  }
+});
 
 //` {
 //      "full_name": "Isma'eel Adams",

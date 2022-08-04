@@ -1,17 +1,34 @@
-const users = [];
-fetch("https://api-prractice.herokuapp.com/users/users/verify", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "x-auth-token": localStorage.getItem("token", JSON.stringify(data)),
-  },
-})
-  .then((response) => response.json())
-  .then((user) => {
-    console.log(user);
-  });
+// const users = [];
+// fetch("https://api-prractice.herokuapp.com/users/users/verify", {
+//   method: "GET",
+//   headers: {
+//     "Content-Type": "application/json",
+//     "x-auth-token": localStorage.getItem("token"),
+//   },
+// })
+//   .then((response) => response.json())
+//   .then((user) => {
+//     showItems(user);
+//   });
 
-function displayUser()
+// function showItems(users) {
+//   document.querySelector("#users").innerHTML = "";
+//   users.forEach((user) => {
+//     console.log(user);
+//     document.querySelector("#users").innerHTML += `
+//             <td>${user.user_id}</td>
+//             <td>${user.full_name}</td>
+//             <td>${user.email}</td>
+//             <td>${user.user_type}</td>
+//             <td>${user.phone}</td>
+//             <td>${user.country}</td>
+//             <td>${user.billing_address}</td>
+//             <td>${user.default_shipping_address}</td>
+//           `;
+//   });
+// }
+
+function displayUser() {}
 
 // Display all products
 let products = [];
