@@ -29,5 +29,6 @@ function register() {
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
+      localStorage.setItem("token", JSON.stringify(data));
     });
 }

@@ -207,7 +207,7 @@ router.post("/forgot-password", (req, res) => {
           pass: process.env.MAILERPASS,
         },
       });
-
+      console.log(transporter);
       // How the mail should be sent out
       const mailData = {
         from: process.env.MAILUSER,
@@ -219,7 +219,7 @@ router.post("/forgot-password", (req, res) => {
             <br>
             <h4>Click link below to reset your password</h4>
 
-            <a href="https://user-images.githubusercontent.com/4998145/52377595-605e4400-2a33-11e9-80f1-c9f61b163c6a.png">
+            <a href="http://localhost:6969/new-psw.html">
               Click Here to Reset Password
               user_id = ${result[0].user_id}
             </a>
@@ -247,10 +247,7 @@ router.post("/forgot-password", (req, res) => {
         if (error) {
           console.log(error);
         } else {
-          res.status(200).json({
-            status: ok,
-            data: result,
-          });
+          res.send("Please check your email");
         }
       });
     });
@@ -260,7 +257,7 @@ router.post("/forgot-password", (req, res) => {
 });
 
 // Reset password
-router.put("reset-password/:id", (req, res) => {
+router.put("/reset-psw/:id", (req, res) => {
   let sql = "SELECT * FROM users WHERE ?";
   let user = {
     user_id: req.params.id,
